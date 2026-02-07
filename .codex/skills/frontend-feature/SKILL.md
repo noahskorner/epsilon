@@ -21,6 +21,7 @@ Build UI pages and components that follow this repo's routing, component, and ar
 
 ## Guardrails
 
+- All components must be mobile and darkmode friendly.
 - Routes must be defined in `apps/web/app/routes.ts`; do not hardcode paths elsewhere.
 - Keep each file focused on a single component when possible; avoid multi-component files.
 - `page.tsx` should be nearly empty and delegate to a feature component unless routing logic is needed.
@@ -28,3 +29,30 @@ Build UI pages and components that follow this repo's routing, component, and ar
 - Prefer shadcn components in `components/ui` for primitives and composition.
 - Use Tailwind classes for styling; only introduce CSS files when Tailwind is insufficient.
 - Follow vertical slice architecture: keep feature logic, UI, and helpers co-located; share only when reuse is proven.
+
+```text
+app/
+├─ dashboard/
+│  ├─ page.tsx
+│  ├─ dashboard-container.tsx        // orchestrates data + state
+│  ├─ dashboard-view.tsx             // pure UI
+│  ├─ dashboard-widgets.tsx          // feature-specific subcomponents
+│  ├─ dashboard.helpers.ts           // formatting, mapping, small utilities
+│  ├─ dashboard.hooks.ts             // feature-scoped hooks
+│  └─ dashboard.types.ts
+│
+├─ search/
+│  ├─ page.tsx
+│  ├─ search-container.tsx
+│  ├─ search-view.tsx
+│  ├─ search-filters.tsx
+│  ├─ search-results.tsx
+│  ├─ search.helpers.ts
+│  ├─ search.hooks.ts
+│  └─ search.types.ts
+components/
+├─ ui/                               // shadcn components
+├─ /                                 // shared components
+hooks/                               // shared hooks
+lib/                                 // shared utilities
+```

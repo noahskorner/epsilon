@@ -1,12 +1,10 @@
 import { NextResponse } from 'next/server';
 import { createDocument } from 'zod-openapi';
-import { CreateAssetRequestSchema } from '../assets/create-asset.request';
-import { CreateAssetResponseSchema } from '../assets/create-asset.response';
-import { CreateCourseRequestSchema } from '../courses/create-course.request';
+import { CreateIndexRequestSchema } from '../indexes/create-index.request';
 import {
-  CreateCourseResponseSchema,
-  ErrorResponseSchema,
-} from '../courses/create-course.response';
+  CreateIndexErrorResponseSchema,
+  CreateIndexResponseSchema,
+} from '../indexes/create-index.response';
 
 export async function GET() {
   const document = createDocument({
@@ -16,13 +14,13 @@ export async function GET() {
       version: '1.0.0',
     },
     paths: {
-      '/api/assets': {
+      '/api/indexes': {
         post: {
-          summary: 'Create asset',
-          tags: ['Assets'],
+          summary: 'Create index',
+          tags: ['Indexes'],
           requestBody: {
             content: {
-              'application/json': { schema: CreateAssetRequestSchema },
+              'application/json': { schema: CreateIndexRequestSchema },
             },
           },
           responses: {
@@ -30,28 +28,7 @@ export async function GET() {
               description: '201 Created',
               content: {
                 'application/json': {
-                  schema: CreateAssetResponseSchema,
-                },
-              },
-            },
-          },
-        },
-      },
-      '/api/courses': {
-        post: {
-          summary: 'Create course',
-          tags: ['Courses'],
-          requestBody: {
-            content: {
-              'application/json': { schema: CreateCourseRequestSchema },
-            },
-          },
-          responses: {
-            '201': {
-              description: '201 Created',
-              content: {
-                'application/json': {
-                  schema: CreateCourseResponseSchema,
+                  schema: CreateIndexResponseSchema,
                 },
               },
             },
@@ -59,15 +36,7 @@ export async function GET() {
               description: '400 Bad Request',
               content: {
                 'application/json': {
-                  schema: ErrorResponseSchema,
-                },
-              },
-            },
-            '401': {
-              description: '401 Unauthorized',
-              content: {
-                'application/json': {
-                  schema: ErrorResponseSchema,
+                  schema: CreateIndexErrorResponseSchema,
                 },
               },
             },

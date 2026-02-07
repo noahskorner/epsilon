@@ -1,5 +1,6 @@
 export interface Environment {
   DATABASE_URL: string;
+  RESOURCE_MANAGER_DATABASE_URL: string;
   AZURITE_ENDPOINT: string;
   AZURITE_ACCOUNT: string;
   AZURITE_KEY: string;
@@ -12,6 +13,7 @@ export interface Environment {
 
 const REQUIRED_KEYS: Array<keyof Environment> = [
   'DATABASE_URL',
+  'RESOURCE_MANAGER_DATABASE_URL',
   'AZURITE_ENDPOINT',
   'AZURITE_ACCOUNT',
   'AZURITE_KEY',
@@ -24,6 +26,7 @@ const REQUIRED_KEYS: Array<keyof Environment> = [
 
 const URL_KEYS: Array<keyof Environment> = [
   'DATABASE_URL',
+  'RESOURCE_MANAGER_DATABASE_URL',
   'AZURITE_ENDPOINT',
   'EMAIL_SERVER',
   'OLLAMA_BASE_URL',

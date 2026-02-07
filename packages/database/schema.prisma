@@ -88,3 +88,13 @@ model Authenticator {
   @@id([userId, credentialID])
   @@map("authenticator")
 }
+
+// Index management ----------------------------------------------------------
+model Index {
+  id          String  @id @map("id")
+  name        String  @unique @map("name")
+  dbName      String  @unique @map("db_name")
+  description String? @map("description")
+
+  @@map("search_index")
+}
