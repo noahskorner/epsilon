@@ -1,0 +1,21 @@
+{
+  "name": "database",
+  "version": "1.0.0",
+  "main": "src/index.ts",
+  "scripts": {
+    "prisma:generate": "npx dotenv -e ../../apps/web/.env.local -- npx prisma generate",
+    "prisma:migrate:dev": "npx dotenv -e ../../apps/web/.env.local -- npx prisma migrate dev",
+    "prisma:migrate:reset": "npx dotenv -e ../../apps/web/.env.local -- npx prisma migrate reset --force",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "prisma": "^7.3.0"
+  },
+  "dependencies": {
+    "@prisma/client": "^6.19.1"
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "name": "epsilon",
+  "version": "1.0.0",
+  "main": "index.js",
+  "packageManager": "npm@10.7.0",
+  "scripts": {
+    "clean": "find . ( -name node_modules -o -name .turbo -o -name .next -o -name generated ) -type d -prune -exec rm -rf '{}' +",
+    "dev": "turbo run dev",
+    "build": "turbo run build",
+    "lint": "turbo run lint",
+    "postinstall": "npm run prisma:generate",
+    "prisma:migrate:dev": "turbo run prisma:migrate:dev",
+    "prisma:generate": "turbo run prisma:generate",
+    "setup": "docker compose up -d && npm run prisma:migrate:dev",
+    "azurite:reset": "bash -lc \"docker compose stop azurite >/dev/null 2>&1 || true; docker compose rm -f azurite >/dev/null 2>&1 || true; vol=$(docker volume ls -q --filter name=azurite-data); if [ -n \\\"$vol\\\" ]; then docker volume rm $vol; fi; docker compose up -d azurite\""
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "devDependencies": {
+    "dotenv-cli": "^8.0.0",
+    "turbo": "^2.7.5"
+  }
+}
