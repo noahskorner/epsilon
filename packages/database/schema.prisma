@@ -8,6 +8,7 @@ generator client {
 datasource db {
   provider   = "postgresql"
   extensions = [pgvector(map: "vector")]
+  url        = env("DATABASE_URL")
 }
 
 // Auth model ----------------------------------------------------------------

@@ -1,4 +1,4 @@
-# 🛠️ epsilon - The greatest collaboration tool ever created
+# 🤖 epsilon
 
 Welcome to **epsilon**, a modern Turborepo‑powered monorepo featuring Next.js 14, shadcn/ui, Prisma, and a Postgres (pgvector‑enabled) database. Built for rapid prototyping **and** production‑grade scaling.
 
