@@ -22,6 +22,7 @@ Build UI pages and components that follow this repo's routing, component, and ar
 ## Guardrails
 
 - Always use fully qualified file names, except for Next.js–reserved conventions (e.g., create-index-form.ts instead of form.ts).
+- Use the sonner/toast package for all user notifications (success and error states). Use error-toast.tsx to render server-side error messages on the client.
 - All components must be mobile and darkmode friendly.
 - Use React Hook Form for all form submissions.
 - Prefer Next.js server actions for data creation when appropriate.
@@ -38,22 +39,8 @@ Build UI pages and components that follow this repo's routing, component, and ar
 app/
 ├─ dashboard/
 │  ├─ page.tsx
-│  ├─ dashboard-container.tsx        // orchestrates data + state
-│  ├─ dashboard-view.tsx             // pure UI
-│  ├─ dashboard-widgets.tsx          // feature-specific subcomponents
-│  ├─ dashboard.helpers.ts           // formatting, mapping, small utilities
-│  ├─ dashboard.hooks.ts             // feature-scoped hooks
-│  └─ dashboard.types.ts
-│
-├─ search/
-│  ├─ page.tsx
-│  ├─ search-container.tsx
-│  ├─ search-view.tsx
-│  ├─ search-filters.tsx
-│  ├─ search-results.tsx
-│  ├─ search.helpers.ts
-│  ├─ search.hooks.ts
-│  └─ search.types.ts
+│  ├─ dashboard-component.tsx
+│  ├─ use-dashboard.ts
 components/
 ├─ ui/                               // shadcn components
 ├─ /                                 // shared components

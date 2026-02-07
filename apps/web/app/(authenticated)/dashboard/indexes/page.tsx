@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import type { FindIndexesResponse } from '@/app/api/indexes/find-indexes.response';
 import { FindIndexesFacade } from '@/app/api/indexes/find-indexes.facade';
 
+import { ErrorToast } from '@/components/error-toast';
 import { IndexesList } from './indexes-list';
 
 const DEFAULT_PAGE_SIZE = 25;
@@ -50,6 +51,7 @@ export default async function IndexesPage({
 
   return (
     <div className="flex flex-col gap-6">
+      <ErrorToast message={errorMessage} />
       {errorMessage ? (
         <div className="rounded-lg border border-destructive/30 bg-destructive/10 p-4 text-sm text-destructive">
           {errorMessage}
