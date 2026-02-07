@@ -1,6 +1,8 @@
 import { z } from '@/app/utils/zod';
 
-export const CreateIndexResponseSchema = z
+import { PagedResult } from '../paged-result';
+
+export const IndexSummarySchema = z
   .object({
     id: z.string().meta({
       description: 'Primary identifier for the index',
@@ -20,18 +22,22 @@ export const CreateIndexResponseSchema = z
     }),
   })
   .meta({
-    title: 'CreateIndexResponse',
+    title: 'IndexSummary',
   });
 
-export const CreateIndexErrorResponseSchema = z
+export const FindIndexesResponseSchema = z
   .object({
-    error: z.string().meta({
-      description: 'Error message',
-      example: 'Index name already exists',
+    totalCount: z.number().int().min(0).meta({
+      description: 'Total number of indexes available',
+      example: 42,
+    }),
+    items: z.array(IndexSummarySchema).meta({
+      description: 'Page of indexes',
     }),
   })
   .meta({
-    title: 'CreateIndexErrorResponse',
+    title: 'FindIndexesResponse',
   });
 
-export type CreateIndexResponse = z.infer<typeof CreateIndexResponseSchema>;
+export type IndexSummary = z.infer<typeof IndexSummarySchema>;
+export type FindIndexesResponse = PagedResult<IndexSummary>;

@@ -10,14 +10,11 @@ const MAX_DATABASE_NAME_LENGTH = 63;
 export class CreateIndexFacade {
   public async create(request: CreateIndexRequest): Promise<CreateIndexResponse> {
     await this.ensureNameAvailable(request.name);
-    await this.ensureIdAvailable(request.id);
-
-    const dbName = this.toDatabaseName(request.id);
+    const dbName = this.toDatabaseName(request.name);
     await this.ensureDbNameAvailable(dbName);
 
     const index = await PRISMA.index.create({
       data: {
-        id: request.id,
         name: request.name,
         dbName,
         description: request.description ?? null,
@@ -48,17 +45,6 @@ export class CreateIndexFacade {
 
     if (existing) {
       throw new Error('Index name already exists');
-    }
-  }
-
-  private async ensureIdAvailable(id: string): Promise<void> {
-    const existing = await PRISMA.index.findUnique({
-      where: { id },
-      select: { id: true },
-    });
-
-    if (existing) {
-      throw new Error('Index id already exists');
     }
   }
 

@@ -21,7 +21,11 @@ Build UI pages and components that follow this repo's routing, component, and ar
 
 ## Guardrails
 
+- Always use fully qualified file names, except for Next.js–reserved conventions (e.g., create-index-form.ts instead of form.ts).
 - All components must be mobile and darkmode friendly.
+- Use React Hook Form for all form submissions.
+- Prefer Next.js server actions for data creation when appropriate.
+- Prefer server-side rendering (SSR) when appropriate.
 - Routes must be defined in `apps/web/app/routes.ts`; do not hardcode paths elsewhere.
 - Keep each file focused on a single component when possible; avoid multi-component files.
 - `page.tsx` should be nearly empty and delegate to a feature component unless routing logic is needed.

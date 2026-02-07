@@ -3,6 +3,7 @@ import type { LucideIcon } from 'lucide-react';
 import {
   BarChart3,
   Brain,
+  DatabaseZap,
   FlaskConical,
   LayoutDashboard,
   MessageSquareText,
@@ -82,6 +83,20 @@ const NAV_SECTIONS: SidebarSection[] = [
       {
         label: 'Memory strategies',
         icon: Brain,
+      },
+    ],
+  },
+  {
+    label: 'Index Management',
+    items: [
+      {
+        label: 'Indexes',
+        icon: DatabaseZap,
+        href: ROUTES.dashboard.indexes.home,
+      },
+      {
+        label: 'Ingestion runs',
+        icon: Rocket,
       },
     ],
   },

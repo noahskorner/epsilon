@@ -10,6 +10,7 @@ export const ROUTES = {
   dashboard: {
     home: '/dashboard',
     indexes: {
+      home: '/dashboard/indexes',
       new: '/dashboard/indexes/new',
     },
   },

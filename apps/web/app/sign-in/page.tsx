@@ -45,31 +45,31 @@ export default function Login() {
         <div className="flex max-w-xl flex-col gap-6 text-center lg:text-left">
           <div className="inline-flex items-center justify-center gap-2 self-center rounded-full border border-primary/30 bg-background/70 px-4 py-2 text-sm font-medium text-primary shadow-sm lg:self-start">
             <Sparkles className="h-4 w-4" aria-hidden />
-            AI learning studio
+            AI experiment studio
           </div>
           <h1 className="text-3xl font-semibold leading-tight text-foreground sm:text-4xl">
-            Sign in to build courses that keep learners moving.
+            Sign in to design, run, and evaluate agent experiments.
           </h1>
           <p className="text-muted-foreground text-base leading-relaxed">
-            Create structured learning paths, generate assets in minutes, and measure real progress
-            with feedback that helps students improve.
+            Spin up pgvector-backed indexes, test agent variants, and compare outcomes with both
+            automated and human evaluation.
           </p>
           <div className="grid gap-4 sm:grid-cols-2">
             <div className="flex items-start gap-3 rounded-xl border bg-background/80 p-4 shadow-sm backdrop-blur">
               <Bot className="mt-1 h-4 w-4 text-sky-500" aria-hidden />
               <div>
-                <p className="text-sm font-medium text-foreground">AI course builder</p>
+                <p className="text-sm font-medium text-foreground">Index management</p>
                 <p className="text-muted-foreground text-sm">
-                  Generate syllabi, assets, and assessments in one flow.
+                  Provision pgvector stores and ingest agent/search documents.
                 </p>
               </div>
             </div>
             <div className="flex items-start gap-3 rounded-xl border bg-background/80 p-4 shadow-sm backdrop-blur">
               <Target className="mt-1 h-4 w-4 text-emerald-500" aria-hidden />
               <div>
-                <p className="text-sm font-medium text-foreground">Milestone tracking</p>
+                <p className="text-sm font-medium text-foreground">Experiment design</p>
                 <p className="text-muted-foreground text-sm">
-                  Track completion, scores, and learning streaks.
+                  Run A/B variants, tune chunking, and compare agent prompts.
                 </p>
               </div>
             </div>
@@ -77,20 +77,20 @@ export default function Login() {
           <div className="grid gap-3 rounded-2xl border bg-background/70 p-4 text-left shadow-sm backdrop-blur">
             <div className="flex items-center gap-3 text-sm">
               <BookOpen className="h-4 w-4 text-primary" aria-hidden />
-              <span className="font-medium text-foreground">Your next course draft</span>
+              <span className="font-medium text-foreground">Your next experiment run</span>
             </div>
             <div className="grid gap-2 text-xs text-muted-foreground">
               <div className="flex items-center justify-between rounded-lg bg-muted/60 px-3 py-2">
-                <span>Foundations and overview</span>
-                <span className="font-medium text-foreground">15 min</span>
+                <span>Baseline agent run</span>
+                <span className="font-medium text-foreground">12 min</span>
               </div>
               <div className="flex items-center justify-between rounded-lg bg-muted/60 px-3 py-2">
-                <span>Practice and guided exercise</span>
-                <span className="font-medium text-foreground">25 min</span>
+                <span>Variant prompt A/B</span>
+                <span className="font-medium text-foreground">18 min</span>
               </div>
               <div className="flex items-center justify-between rounded-lg bg-muted/60 px-3 py-2">
-                <span>Reflection and feedback</span>
-                <span className="font-medium text-foreground">10 min</span>
+                <span>Judge evaluation pass</span>
+                <span className="font-medium text-foreground">8 min</span>
               </div>
             </div>
           </div>
@@ -100,11 +100,11 @@ export default function Login() {
           <CardHeader className="space-y-2">
             <div className="flex items-center gap-2 text-sm font-medium text-primary">
               <Flame className="h-4 w-4" aria-hidden />
-              <span>Resume your learning streak</span>
+              <span>Resume your experiments</span>
             </div>
             <CardTitle className="text-2xl">Sign in</CardTitle>
             <CardDescription className="leading-relaxed">
-              We use passwordless magic links. Enter your email to receive a secure sign-in link.
+              We use passwordless magic links. Enter your email to get a secure sign-in link.
             </CardDescription>
           </CardHeader>
           <CardContent>

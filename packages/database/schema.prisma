@@ -91,7 +91,7 @@ model Authenticator {
 
 // Index management ----------------------------------------------------------
 model Index {
-  id          String  @id @map("id")
+  id          String  @id @default(uuid()) @map("id")
   name        String  @unique @map("name")
   dbName      String  @unique @map("db_name")
   description String? @map("description")
