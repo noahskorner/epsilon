@@ -9,8 +9,8 @@ export const ROUTES = {
   },
   dashboard: {
     home: '/dashboard',
-    course: {
-      designer: '/dashboard/course/designer',
+    indexes: {
+      new: '/dashboard/indexes/new',
     },
   },
   external: {

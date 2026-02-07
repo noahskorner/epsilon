@@ -1,24 +1,28 @@
 ## Goal
 
-Provide an endpoint that allows users to create and provision search indexes.
+Provide an endpoint for creating and provisioning search indexes.
 
 ## Requirements
 
 - **POST /indexes**
-  - Fields:
+  - **Request Fields**
     - `id` (primary key)
     - `name` (unique)
     - `dbName` (system-generated)
     - `description` (optional)
 
-- Validate:
+- **Validation**
   - `name` must be unique
-  - `description`, if provided, must be within a reasonable length
+  - `description`, if provided, must be within an acceptable length
 
-- Persist the index metadata to the database
+- **Persistence**
+  - Store index record in the database
 
-- Provision a new pgvector-backed database using the environment package
+- **Provisioning**
+  - Provision a new pgvector-backed database
+  - Implement a minimal resource-manager package to handle database provisioning
+  - Use the environment package for required environment variables
 
-- Respond with:
+- **Response**
   - `201 Created`
   - `Location` header pointing to `/indexes/{id}`

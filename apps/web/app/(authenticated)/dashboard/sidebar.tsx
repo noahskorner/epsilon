@@ -1,15 +1,14 @@
 import Link from 'next/link';
+import type { LucideIcon } from 'lucide-react';
 import {
-  BookOpen,
-  Bookmark,
-  CircleUser,
-  Compass,
-  GraduationCap,
+  BarChart3,
+  Brain,
+  FlaskConical,
   LayoutDashboard,
+  MessageSquareText,
+  Rocket,
   Settings,
   Sparkles,
-  Trophy,
-  Users,
 } from 'lucide-react';
 
 import { ROUTES } from '@/app/routes';
@@ -28,34 +27,62 @@ import {
   SidebarSeparator,
 } from '@/components/ui/sidebar';
 
-const NAV_SECTIONS = [
+interface SidebarItem {
+  label: string;
+  icon: LucideIcon;
+  href?: string;
+  active?: boolean;
+}
+
+interface SidebarSection {
+  label: string;
+  items: SidebarItem[];
+}
+
+const NAV_SECTIONS: SidebarSection[] = [
   {
-    label: 'Courses',
+    label: 'Overview',
     items: [
       {
-        label: 'Overview',
+        label: 'Dashboard',
         icon: LayoutDashboard,
         href: ROUTES.dashboard.home,
         active: true,
       },
-      { label: 'My Courses', icon: BookOpen, disabled: true },
-      { label: 'Assignments', icon: GraduationCap, disabled: true },
-      { label: 'Saved Assets', icon: Bookmark, disabled: true },
+      {
+        label: 'Execution runs',
+        icon: Rocket,
+      },
     ],
   },
   {
-    label: 'Community',
+    label: 'Experiments',
     items: [
-      { label: 'Discover', icon: Compass, disabled: true },
-      { label: 'Creators', icon: Users, disabled: true },
-      { label: 'Leaderboard', icon: Trophy, disabled: true },
+      {
+        label: 'A/B tests',
+        icon: FlaskConical,
+      },
+      {
+        label: 'Agent variants',
+        icon: Brain,
+      },
+      {
+        label: 'Evaluations',
+        icon: BarChart3,
+      },
     ],
   },
   {
-    label: 'AI Studio',
+    label: 'Conversations',
     items: [
-      { label: 'Course Designer', icon: Sparkles, href: ROUTES.dashboard.course.designer },
-      { label: 'Feedback Lab', icon: CircleUser, disabled: true },
+      {
+        label: 'Sessions',
+        icon: MessageSquareText,
+      },
+      {
+        label: 'Memory strategies',
+        icon: Brain,
+      },
     ],
   },
 ];
@@ -82,7 +109,7 @@ export function Sidebar() {
             </div>
             <div className="leading-tight group-data-[collapsible=icon]:hidden">
               <p className="text-sm font-semibold">epsilon</p>
-              <p className="text-xs text-sidebar-foreground/70">AI course studio</p>
+              <p className="text-xs text-sidebar-foreground/70">AI agent platform</p>
             </div>
           </div>
           <Badge
@@ -102,7 +129,7 @@ export function Sidebar() {
                 {section.items.map((item) => (
                   <SidebarMenuItem key={item.label}>
                     {item.href ? (
-                      <SidebarMenuButton asChild>
+                      <SidebarMenuButton asChild isActive={item.active}>
                         <Link href={item.href}>
                           <item.icon />
                           <span>{item.label}</span>
