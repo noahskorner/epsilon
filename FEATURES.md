@@ -10,14 +10,23 @@ Build a platform for creating, running, and evaluating experiments for AI agents
   - Provision pgvector-backed databases
   - Ingest documents with:
     - `id`
-    - `agent`
-      - `context`
-      - `content`
-    - `search`
-      - `context`
-      - `content`
+    - `title`
+    - `context`
+    - `contentType`
+    - `content`
+    - `views`
+      - `search`
+        - `context`
+        - `contentType`
+        - `content`
+      - `agent`
+        - `context`
+        - `contentType`
+        - `content`
     - `vector`
       - `dimensions`
+    - `chunkSize`
+    - `overlapSize`
     - `metadata` (JSON; filterable, slower queries)
 
 ### Experiments

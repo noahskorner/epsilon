@@ -9,7 +9,6 @@ import {
   MessageSquareText,
   Rocket,
   Settings,
-  Sparkles,
 } from 'lucide-react';
 
 import { ROUTES } from '@/app/routes';
@@ -120,7 +119,7 @@ export function Sidebar() {
               className="grid size-9 place-items-center rounded-lg bg-primary text-primary-foreground
                 shadow-sm group-data-[collapsible=icon]:size-8 shrink-0"
             >
-              <Sparkles className="size-4" />
+              <DatabaseZap className="size-4" />
             </div>
             <div className="leading-tight group-data-[collapsible=icon]:hidden">
               <p className="text-sm font-semibold">epsilon</p>

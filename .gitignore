@@ -16,3 +16,4 @@ node_modules
 
 # Next.js
 *next-env.d.ts
+.worktrees/
