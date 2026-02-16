@@ -10,6 +10,7 @@ Build a platform for creating, running, and evaluating experiments for AI agents
   - Provision pgvector-backed databases
   - Ingest documents with:
     - `id`
+    - `schema` (JSON Schema)
     - `title`
     - `context`
     - `contentType`
@@ -23,8 +24,7 @@ Build a platform for creating, running, and evaluating experiments for AI agents
         - `context`
         - `contentType`
         - `content`
-    - `vector`
-      - `dimensions`
+    - `dimensions`
     - `chunkSize`
     - `overlapSize`
     - `metadata` (JSON; filterable, slower queries)
