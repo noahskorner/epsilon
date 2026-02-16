@@ -1,5 +1,5 @@
 import { PRISMA } from '@/app/prisma';
-import { provisionPgvectorDatabase } from 'resource-manager';
+import type { ResourceManager } from 'resource-manager';
 
 import { CreateIndexRequest } from './create-index.request';
 import { CreateIndexResponse } from './create-index.response';
@@ -8,6 +8,8 @@ const DATABASE_NAME_PREFIX = 'index';
 const MAX_DATABASE_NAME_LENGTH = 63;
 
 export class CreateIndexFacade {
+  constructor(private readonly resourceManager: ResourceManager) {}
+
   public async create(request: CreateIndexRequest): Promise<CreateIndexResponse> {
     await this.ensureNameAvailable(request.name);
     const dbName = this.toDatabaseName(request.name);
@@ -27,7 +29,7 @@ export class CreateIndexFacade {
       },
     });
 
-    await provisionPgvectorDatabase(dbName);
+    await this.resourceManager.provisionPgvectorDatabase(dbName);
 
     return {
       id: index.id,

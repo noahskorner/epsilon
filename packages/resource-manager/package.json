@@ -7,7 +7,6 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "database": "*",
-    "environment": "*"
+    "database": "*"
   }
 }

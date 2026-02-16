@@ -6,6 +6,7 @@ import { CreateIndexFacade } from '@/app/api/indexes/create-index.facade';
 import { CreateIndexRequestSchema } from '@/app/api/indexes/create-index.request';
 import { type CreateIndexResponse } from '@/app/api/indexes/create-index.response';
 import { ROUTES } from '@/app/routes';
+import { createServiceScope, SERVICE_TOKENS } from '@/app/services';
 
 export type CreateIndexActionResult =
   | { status: 'success'; data: CreateIndexResponse }
@@ -15,7 +16,8 @@ export async function createIndexAction(input: unknown): Promise<CreateIndexActi
   try {
     const payload = CreateIndexRequestSchema.parse(input);
     const description = payload.description?.trim();
-    const facade = new CreateIndexFacade();
+    const services = createServiceScope();
+    const facade = new CreateIndexFacade(services.resolve(SERVICE_TOKENS.resourceManager));
 
     const response = await facade.create({
       ...payload,

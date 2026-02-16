@@ -4,12 +4,14 @@ import { CreateIndexFacade } from './create-index.facade';
 import { CreateIndexRequestSchema } from './create-index.request';
 import { FindIndexesFacade } from './find-indexes.facade';
 import { FindIndexesRequestSchema } from './find-indexes.request';
+import { createServiceScope, SERVICE_TOKENS } from '@/app/services';
 
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
     const request = CreateIndexRequestSchema.parse(body);
-    const facade = new CreateIndexFacade();
+    const services = createServiceScope();
+    const facade = new CreateIndexFacade(services.resolve(SERVICE_TOKENS.resourceManager));
     const response = await facade.create(request);
 
     return NextResponse.json(response, {
