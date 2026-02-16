@@ -1,0 +1,21 @@
+{
+  "name": "worker",
+  "version": "1.0.0",
+  "private": true,
+  "main": "dist/src/functions/*.js",
+  "scripts": {
+    "build": "tsc",
+    "predev": "npm run build",
+    "dev": "npx func start",
+    "watch": "tsc -w",
+    "prestart": "npm run build"
+  },
+  "dependencies": {
+    "@azure/functions": "^4.8.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.19.11",
+    "azure-functions-core-tools": "^4.7.0",
+    "typescript": "^5.9.2"
+  }
+}
