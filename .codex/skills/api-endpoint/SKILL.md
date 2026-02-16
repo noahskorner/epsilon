@@ -1,6 +1,6 @@
 ---
 name: api-endpoint
-description: Add or modify API endpoints with database schema changes and OpenAPI docs in this repo.
+description: Add or modify API endpoints with database schema changes and OpenAPI docs in this repo. Use when backend/API work touches app routes, facades, infrastructure services, or package integrations such as `database`, `resource-manager`, and `events`.
 ---
 
 # Create API Endpoint Skill
@@ -25,6 +25,8 @@ Use this skill when a request requires:
 4. Plan file changes across layers:
    - API handlers in `apps/web/` (app router).
    - Shared route definitions in `apps/web/app/routes.ts` (avoid hardcoded paths).
+   - Service registration/resolution in `apps/web/app/services.ts` for infrastructure dependencies.
+   - Worker queue consumers in `apps/worker/src/functions/*` when the endpoint emits async events.
    - Database schema in `packages/database/schema.prisma`.
    - OpenAPI docs in `apps/web/app/api/openapi.json/route.ts` and `apps/web/app/api/docs/route.ts`.
 5. Implement schema updates and migrations:
@@ -32,7 +34,8 @@ Use this skill when a request requires:
    - Add enums only when they are required by the API contract.
    - Never manually generate SQL for migrations; always run `npm --prefix packages/database run prisma:migrate:dev`.
 6. Implement the API endpoint:
-   - Use shared packages (`database`, `environment`, `blob-storage`) instead of duplicating logic.
+   - Use shared packages (`database`, `environment`, `blob-storage`, `resource-manager`, `events`) instead of duplicating logic.
+   - Resolve infrastructure dependencies via `createServiceScope()` + `SERVICE_TOKENS` from `apps/web/app/services.ts`.
    - Validate inputs and return typed responses.
 7. Update OpenAPI documentation:
    - Add or update paths, request bodies, and response schemas.
@@ -57,6 +60,16 @@ Follow the existing patterns in `apps/web/app/api/assets`.
   - Use `ENV` from `environment` for config; avoid `process.env` in app code.
   - Use `getBlobStorage()` from `apps/web/app/blob-storage.ts` for storage operations.
   - Keep route handlers thin: parse, call facade, return response.
+- **Service wiring (DI)**
+  - Register app-level infrastructure services in `apps/web/app/services.ts`.
+  - Add a token to `SERVICE_TOKENS` and register with the correct lifetime (`singleton`, `scoped`, `transient`).
+  - In route handlers/server actions, create a scope and resolve dependencies from it.
+  - Avoid `new <InfraClient>()` inside handlers/actions when the service can be registered once in DI.
+- **Async events + workers**
+  - Publish queue events through `packages/events` from facades/actions/routes (resolved through DI in `apps/web/app/services.ts`).
+  - Handle queue events in Azure Functions under `apps/worker/src/functions/*` (for example, `app.storageQueue(...)` triggers).
+  - Keep queue names and message schema aligned between publisher and worker trigger.
+  - For local development, ensure worker storage settings match the Azurite setup used by the app/event publisher.
 - **Route handlers**
   - Use `NextRequest` + `NextResponse` and wrap logic in `try/catch`.
   - Parse body with the request schema; parse params with a params schema.

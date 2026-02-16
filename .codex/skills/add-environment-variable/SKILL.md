@@ -34,11 +34,24 @@ Keep validation simple and local; avoid introducing new dependencies unless nece
 
 Add the new variable to `apps/web/.env.example` with a safe placeholder value.
 Do not commit secrets. Do not edit `apps/web/.env.local` unless explicitly asked.
+If the variable is also required by Azure Functions workers, update the worker settings
+source (for example local Functions settings) in the same change when requested.
 
 ### 4. Wire usage in code
 
-Use `ENV.<KEY>` from the `environment` package in app or package code. If a fallback is
-needed, add it at the call site rather than weakening validation for required keys.
+Use `ENV.<KEY>` from the `environment` package in app or package code. If the variable
+configures an infrastructure dependency (`resource-manager`, `events`, storage, etc.),
+wire it through `apps/web/app/services.ts` so handlers/actions resolve configured services
+from DI instead of reading env vars directly.
+
+### 5. Keep package boundaries intact
+
+- Put env usage in the package or app that owns the integration.
+- Keep `packages/resource-manager` and `packages/events` configuration typed through
+  `packages/environment/src/index.ts` and injected at registration time.
+- For queue-based flows, keep `packages/events` config in sync with worker storage/queue
+  settings used by `apps/worker` triggers.
+- Avoid introducing direct `process.env` access in feature code; prefer `ENV` + DI.
 
 ## Quick Example
 

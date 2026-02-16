@@ -18,6 +18,7 @@ Build UI pages and components that follow this repo's routing, component, and ar
 5. Prefer Next.js server components and SSR by default; use client components only when required.
 6. Style with Tailwind classes; only use raw CSS when absolutely necessary.
 7. Promote components/hooks/utils to shared folders only when reused across multiple features.
+8. When a feature includes server actions with infrastructure dependencies, resolve them via `createServiceScope()` and `SERVICE_TOKENS` from `apps/web/app/services.ts`.
 
 ## Guardrails
 
@@ -26,6 +27,8 @@ Build UI pages and components that follow this repo's routing, component, and ar
 - All components must be mobile and darkmode friendly.
 - Use React Hook Form for all form submissions.
 - Prefer Next.js server actions for data creation when appropriate.
+- For server actions that call backend facades/services, resolve dependencies via `apps/web/app/services.ts` instead of constructing infra clients inline.
+- When UI actions kick off async backend work, prefer emitting queue events through `packages/events` (via DI) and let `apps/worker` Azure Functions process them.
 - Prefer server-side rendering (SSR) when appropriate.
 - Routes must be defined in `apps/web/app/routes.ts`; do not hardcode paths elsewhere.
 - Keep each file focused on a single component when possible; avoid multi-component files.
