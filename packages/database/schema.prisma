@@ -91,10 +91,55 @@ model Authenticator {
 
 // Index management ----------------------------------------------------------
 model Index {
-  id          String  @id @default(uuid()) @map("id")
-  name        String  @unique @map("name")
-  dbName      String  @unique @map("db_name")
-  description String? @map("description")
+  id            String          @id @default(uuid()) @map("id")
+  name          String          @unique @map("name")
+  dbName        String          @unique @map("db_name")
+  description   String?         @map("description")
+  documents     Document[]
+  ingestBatches DocumentBatch[]
 
   @@map("search_index")
+}
+
+model DocumentBatch {
+  id        String     @id @default(uuid()) @map("id")
+  indexId   String     @map("index_id")
+  index     Index      @relation(fields: [indexId], references: [id], onDelete: Cascade)
+  documents Document[]
+  createdAt DateTime   @default(now()) @map("created_at")
+
+  @@index([indexId, createdAt])
+  @@map("document_ingest_batch")
+}
+
+model Document {
+  id                String        @id @default(uuid()) @map("id")
+  indexId           String        @map("index_id")
+  index             Index         @relation(fields: [indexId], references: [id], onDelete: Cascade)
+  externalId        String        @map("external_id")
+  schema            Json          @map("schema")
+  title             String        @map("title")
+  context           String?       @map("context")
+  contentType       String        @map("content_type")
+  content           String        @map("content")
+  searchTitle       String?       @map("search_title")
+  searchContext     String?       @map("search_context")
+  searchContentType String?       @map("search_content_type")
+  searchContent     String?       @map("search_content")
+  agentTitle        String?       @map("agent_title")
+  agentContext      String?       @map("agent_context")
+  agentContentType  String?       @map("agent_content_type")
+  agentContent      String?       @map("agent_content")
+  dimensions        Int           @map("dimensions")
+  chunkSize         Int           @map("chunk_size")
+  overlapSize       Int           @map("overlap_size")
+  metadata          Json          @map("metadata")
+  batchId           String        @map("batch_id")
+  batch             DocumentBatch @relation(fields: [batchId], references: [id], onDelete: Restrict)
+  createdAt         DateTime      @default(now()) @map("created_at")
+  updatedAt         DateTime      @updatedAt @map("updated_at")
+
+  @@unique([indexId, externalId])
+  @@index([indexId, batchId])
+  @@map("index_document")
 }

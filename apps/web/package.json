@@ -40,6 +40,7 @@
     "codemirror": "^6.0.2",
     "database": "*",
     "environment": "*",
+    "event-storage": "*",
     "@prisma/client": "^6.19.1",
     "resource-manager": "*",
     "lodash": "^4.17.21",

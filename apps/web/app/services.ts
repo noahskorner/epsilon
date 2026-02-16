@@ -1,4 +1,5 @@
 import { ENV } from 'environment';
+import { AzureQueueStorage, DEFAULT_EVENTS_QUEUE, type EventStorage } from 'event-storage';
 import { PostgresResourceManager, type ResourceManager } from 'resource-manager';
 
 type ServiceToken<T> = symbol & { readonly __type?: T };
@@ -69,6 +70,7 @@ function createToken<T>(description: string): ServiceToken<T> {
 
 export const SERVICE_TOKENS = {
   resourceManager: createToken<ResourceManager>('resourceManager'),
+  eventStorage: createToken<EventStorage>('eventStorage'),
 } as const;
 
 const services = new ServiceCollection();
@@ -76,6 +78,15 @@ const services = new ServiceCollection();
 services.registerSingleton(SERVICE_TOKENS.resourceManager, () => {
   return new PostgresResourceManager({
     adminDatabaseUrl: ENV.RESOURCE_MANAGER_DATABASE_URL,
+  });
+});
+
+services.registerSingleton(SERVICE_TOKENS.eventStorage, () => {
+  return new AzureQueueStorage({
+    endpoint: ENV.AZURITE_ENDPOINT,
+    account: ENV.AZURITE_ACCOUNT,
+    accountKey: ENV.AZURITE_KEY,
+    queue: DEFAULT_EVENTS_QUEUE,
   });
 });
 

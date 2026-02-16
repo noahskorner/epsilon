@@ -1,12 +1,14 @@
 import { QueueServiceClient, StorageSharedKeyCredential } from '@azure/storage-queue';
 
+export const DEFAULT_EVENTS_QUEUE = 'documents-ingested';
+
 export type EventMessage = {
-  name: string;
-  payload: unknown;
+  type: string;
+  [key: string]: unknown;
 };
 
-export interface EventStorage {
-  publishEvent(event: EventMessage): Promise<void>;
+export interface EventStorage<TEvent extends EventMessage = EventMessage> {
+  publishEvent(event: TEvent): Promise<void>;
 }
 
 export type AzureQueueStorageConfig = {
@@ -16,7 +18,9 @@ export type AzureQueueStorageConfig = {
   queue: string;
 };
 
-export class AzureQueueStorage implements EventStorage {
+export class AzureQueueStorage<TEvent extends EventMessage = EventMessage>
+  implements EventStorage<TEvent>
+{
   private readonly queueClient;
   private queueReady = false;
 
@@ -27,7 +31,7 @@ export class AzureQueueStorage implements EventStorage {
     this.queueClient = serviceClient.getQueueClient(config.queue);
   }
 
-  async publishEvent(event: EventMessage): Promise<void> {
+  async publishEvent(event: TEvent): Promise<void> {
     await this.ensureQueue();
     const payload = JSON.stringify(event);
     await this.queueClient.sendMessage(Buffer.from(payload).toString('base64'));

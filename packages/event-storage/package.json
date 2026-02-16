@@ -1,5 +1,5 @@
 {
-  "name": "events",
+  "name": "event-storage",
   "version": "0.1.0",
   "main": "src/index.ts",
   "keywords": [],

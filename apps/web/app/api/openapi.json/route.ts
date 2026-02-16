@@ -6,6 +6,11 @@ import {
   CreateIndexResponseSchema,
 } from '../indexes/create-index.response';
 import { FindIndexesResponseSchema } from '../indexes/find-indexes.response';
+import { IngestDocumentsRequestSchema } from '../indexes/[indexName]/documents/ingest/ingest-documents.request';
+import {
+  IngestDocumentsErrorResponseSchema,
+  IngestDocumentsResponseSchema,
+} from '../indexes/[indexName]/documents/ingest/ingest-documents.response';
 
 export async function GET() {
   const document = createDocument({
@@ -86,6 +91,58 @@ export async function GET() {
               content: {
                 'application/json': {
                   schema: CreateIndexErrorResponseSchema,
+                },
+              },
+            },
+          },
+        },
+      },
+      '/api/indexes/{index-name}/documents/ingest': {
+        post: {
+          summary: 'Ingest documents into an index',
+          tags: ['Indexes'],
+          parameters: [
+            {
+              name: 'index-name',
+              in: 'path',
+              required: true,
+              description: 'Index name to ingest documents into',
+              schema: {
+                type: 'string',
+                example: 'support_articles',
+              },
+            },
+          ],
+          requestBody: {
+            required: true,
+            content: {
+              'application/json': {
+                schema: IngestDocumentsRequestSchema,
+              },
+            },
+          },
+          responses: {
+            '200': {
+              description: '200 OK',
+              content: {
+                'application/json': {
+                  schema: IngestDocumentsResponseSchema,
+                },
+              },
+            },
+            '400': {
+              description: '400 Bad Request',
+              content: {
+                'application/json': {
+                  schema: IngestDocumentsErrorResponseSchema,
+                },
+              },
+            },
+            '404': {
+              description: '404 Not Found',
+              content: {
+                'application/json': {
+                  schema: IngestDocumentsErrorResponseSchema,
                 },
               },
             },
