@@ -1,6 +1,10 @@
 import { ENV } from 'environment';
 import { AzureQueueStorage, DEFAULT_EVENTS_QUEUE, type EventStorage } from 'event-storage';
-import { PostgresResourceManager, type ResourceManager } from 'resource-manager';
+import {
+  PostgresResourceManager,
+  ensureValidDatabaseName,
+  type ResourceManager,
+} from 'resource-manager';
 
 type ServiceToken<T> = symbol & { readonly __type?: T };
 type ServiceLifetime = 'singleton' | 'scoped' | 'transient';
@@ -73,12 +77,45 @@ export const SERVICE_TOKENS = {
   eventStorage: createToken<EventStorage>('eventStorage'),
 } as const;
 
+class TestResourceManager implements ResourceManager {
+  async provisionPgvectorDatabase(name: string): Promise<{ name: string; url: string }> {
+    ensureValidDatabaseName(name);
+    const url = new URL(ENV.DATABASE_URL);
+    url.pathname = `/${name}`;
+    return { name, url: url.toString() };
+  }
+}
+
+class MockResourceManager implements ResourceManager {
+  async provisionPgvectorDatabase(name: string): Promise<{ name: string; url: string }> {
+    ensureValidDatabaseName(name);
+    return { name, url: `mock://resource-manager/${name}` };
+  }
+}
+
+function createResourceManager(): ResourceManager {
+  if (ENV.RESOURCE_MANAGER_SERVICE_MODE === 'real') {
+    return new PostgresResourceManager({
+      adminDatabaseUrl: ENV.RESOURCE_MANAGER_DATABASE_URL,
+    });
+  }
+
+  if (ENV.RESOURCE_MANAGER_SERVICE_MODE === 'test') {
+    return new TestResourceManager();
+  }
+
+  if (ENV.RESOURCE_MANAGER_SERVICE_MODE === 'mock') {
+    return new MockResourceManager();
+  }
+
+  const neverMode: never = ENV.RESOURCE_MANAGER_SERVICE_MODE;
+  throw new Error(`Unsupported resource manager mode: ${neverMode}`);
+}
+
 const services = new ServiceCollection();
 
 services.registerSingleton(SERVICE_TOKENS.resourceManager, () => {
-  return new PostgresResourceManager({
-    adminDatabaseUrl: ENV.RESOURCE_MANAGER_DATABASE_URL,
-  });
+  return createResourceManager();
 });
 
 services.registerSingleton(SERVICE_TOKENS.eventStorage, () => {

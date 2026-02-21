@@ -7,6 +7,11 @@
       "outputs": [".next/**", "dist/**", "build/**"]
     },
     "lint": { "cache": true },
+    "test": {
+      "cache": false,
+      "dependsOn": ["^build"],
+      "outputs": []
+    },
     "prisma:migrate:dev": {
       "cache": false,
       "outputs": []

@@ -5,8 +5,7 @@
   "scripts": {
     "prisma:generate": "npx dotenv -e ../../apps/web/.env.local -- npx prisma generate",
     "prisma:migrate:dev": "npx dotenv -e ../../apps/web/.env.local -- npx prisma migrate dev",
-    "prisma:migrate:reset": "npx dotenv -e ../../apps/web/.env.local -- npx prisma migrate reset --force",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "prisma:migrate:reset": "npx dotenv -e ../../apps/web/.env.local -- npx prisma migrate reset --force"
   },
   "keywords": [],
   "author": "",

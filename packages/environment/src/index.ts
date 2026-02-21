@@ -1,6 +1,7 @@
 export interface Environment {
   DATABASE_URL: string;
   RESOURCE_MANAGER_DATABASE_URL: string;
+  RESOURCE_MANAGER_SERVICE_MODE: 'real' | 'test' | 'mock';
   AZURITE_ENDPOINT: string;
   AZURITE_ACCOUNT: string;
   AZURITE_KEY: string;
@@ -33,6 +34,9 @@ const URL_KEYS: Array<keyof Environment> = [
 ];
 
 const EMAIL_FROM_KEY: keyof Environment = 'EMAIL_FROM';
+const RESOURCE_MANAGER_SERVICE_MODE_KEY: keyof Environment = 'RESOURCE_MANAGER_SERVICE_MODE';
+const RESOURCE_MANAGER_SERVICE_MODES = ['real', 'test', 'mock'] as const;
+type ResourceManagerServiceMode = (typeof RESOURCE_MANAGER_SERVICE_MODES)[number];
 
 function isValidUrl(value: string): boolean {
   try {
@@ -45,6 +49,10 @@ function isValidUrl(value: string): boolean {
 
 function hasEmailLikeFormat(value: string): boolean {
   return value.includes('@');
+}
+
+function isResourceManagerServiceMode(value: string): value is ResourceManagerServiceMode {
+  return (RESOURCE_MANAGER_SERVICE_MODES as readonly string[]).includes(value);
 }
 
 function loadEnvironment(env: NodeJS.ProcessEnv = process.env): Environment {
@@ -71,6 +79,13 @@ function loadEnvironment(env: NodeJS.ProcessEnv = process.env): Environment {
   const emailFrom = values[EMAIL_FROM_KEY];
   if (emailFrom && !hasEmailLikeFormat(emailFrom)) {
     invalid.push(EMAIL_FROM_KEY);
+  }
+
+  const resourceManagerServiceMode = env[RESOURCE_MANAGER_SERVICE_MODE_KEY] ?? 'real';
+  if (!isResourceManagerServiceMode(resourceManagerServiceMode)) {
+    invalid.push(RESOURCE_MANAGER_SERVICE_MODE_KEY);
+  } else {
+    values[RESOURCE_MANAGER_SERVICE_MODE_KEY] = resourceManagerServiceMode;
   }
 
   if (missing.length || invalid.length) {
